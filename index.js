@@ -7,8 +7,9 @@ let router      = express.Router();
 /*
   Configurables:
   {
-    tmplDir:    [absolute path to the directory],
-    tmplExt:    '.pug' or ‘.jade’
+    file: path.join(__dirname, 'website'),
+    tmplDir: path.join(__dirname, 'views'),
+    tmplExt: '.pug' || '.jade'
   }
 */
 
@@ -20,7 +21,7 @@ class Builder {
             ? JSON.parse(JSON.stringify(require(obj.file)))
             : !function(){throw new Error("Structure-File not defined")}()
         this.tmplDir    = obj.tmplDir || path.join(process.cwd(), 'views')
-        this.templExt   = obj.tmplExt || '.pug'
+        this.tmplExt   = obj.tmplExt || '.pug'
         this.navigation = {}
     }
 }
