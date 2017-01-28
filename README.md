@@ -35,12 +35,39 @@ module.exports = {
             foo: "Bar"
         }
     },
-    anotherPage: {
-        meta: {},
+    products: {
+        meta: {
+            alias: 'Another Page'
+        },
         content: {
             h1: 'My other Page',
             article: 'welcome on this site',
-            foo: "Bar"
+            foo: 'lorem ipsum...'
+        },
+        'assorted-candy': {
+            meta: {
+                alias: 'Another Page'
+            },
+            content: {},
+        },
+        gummybears: {
+            meta: {
+                alias: 'Another Page'
+            },
+            content: {
+                h1: 'Gummy Bears'
+            },
+        },
+    },
+    '*': {
+        meta: {
+            title: '404 - Not Found',
+            description: 'We have not found what you were looking for',
+            template : 'error',
+            hidden: true
+        },
+        content: {
+            h1: 'Sorry - 404 - not found'
         }
     }
 }
@@ -52,9 +79,14 @@ module.exports = {
     * **description** - describes the node
     * **template** - this is the name of the template that shall be used for rendering the node. If the template does not exist it will be created as an empty template with the given name. If you do not define the template attribute a _"default"_ template is created and used for that node
     * **alias** - the name used in the navigation and the breadcrumb menu
-* Every node must have a **content** object. You are free to define the property names. The properties can be directly accessed in the templates by their name. (**Do not use the reserved words root, meta or content !!!**)
+    * **hidden** - the node will not show up in the navigation (exclude from navigation)
+* The **content** node object is directly piped through to the templates. You are free to define the property names. The properties can be directly accessed in the templates by their name. (**Do not use the reserved words root, meta or content in the content node !!!**)
+* If a node contains an object that is not named **meta** or **content**, Skinny identifies it as a new sub-page. In our example the gummybears page will have the url _/products/gummybears_.
+* You can **nest pages** as much as you want. But do not forget to respect the structure in rendering the nav object (described below)
+* It is useful to define the last entry as a **fallback** if the desired url was not found (as shown in the example on the last node **'*'**).
 
-**Usage in Templates**
+
+**Usage of content nodes in templates**
 ```javascript
 // content of default.pug
 h1=content.h1
