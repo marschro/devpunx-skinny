@@ -9,7 +9,9 @@ Skinny currently works best with pug templates.
 npm install devpunx-skinny --save
 ```
 # USE
-You have to use express.js on order to work with Skinny.
+You have to use express.js in order to work with Skinny.
+Skinny does not integrate express.js for you.
+
 Skinny has three parts:
 1. **The website structure definition** - a javascript object, that defines the structure of your website
 1. **The Skinny-Builder** - this builds the virtual router based on the website structure object
