@@ -8,8 +8,7 @@ let router      = express.Router();
   Configurables:
   {
     tmplDir:    [absolute path to the directory],
-    auth:       [some password],
-    loginError: [Error message for wrong login credentials]
+    tmplExt:    '.pug' or ‘.jade’
   }
 */
 
@@ -21,10 +20,7 @@ class Builder {
             ? JSON.parse(JSON.stringify(require(obj.file)))
             : !function(){throw new Error("Structure-File not defined")}()
         this.tmplDir    = obj.tmplDir || path.join(process.cwd(), 'views')
-        this.auth       = obj.auth
-            ? obj.auth
-            : false
-        this.loginError = obj.loginError || 'wrong password'
+        this.templExt   = obj.tmplExt || '.pug'
         this.navigation = {}
     }
 }
