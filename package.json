@@ -1,0 +1,25 @@
+{
+  "name": "devpunx-skinny",
+  "version": "1.0.0",
+  "description": "Simple api testing module",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm install; node test.js; rm -R node_modules"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marschro/devpunx-skinny"
+  },
+  "keywords": [
+    "skiny",
+    "website",
+    "builder",
+    "express.js",
+    "middleware"
+  ],
+  "author": "Martin Schroeter",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^2.1.4"
+  }
+}
