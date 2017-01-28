@@ -51,12 +51,14 @@ module.exports = {
     * **template** - this is the name of the template that shall be used for rendering the node. If the template does not exist it will be created as an empty template with the given name. If you do not define the template attribute a _"default"_ template is created and used for that node
     * **alias** - the name used in the navigation and the breadcrumb menu
 * Every node must have a **content** object. You are free to define the property names. The properties can be directly accessed in the templates by their name. (**Do not use the reserved words root, meta or content !!!**)
-    ```javascript
+
+**Usage in Templates**
+```javascript
 // content of default.pug
 h1=content.h1
 p=content.article
 p=content.foo
-    ```
+```
 
 
 ## 2. Build the virtual router with Skinny-Builder
@@ -98,3 +100,67 @@ app.use(skinnyRouter)
 # EXAMPLE
 You can checkout this example to get a more detailed view on how to use Skinny
 https://github.com/marschro/devpunx-skinny-example
+
+## Example app - skinny with express.js
+```javascript
+'use strict'
+
+const http          = require('http')
+const express       = require('express')
+const logger        = require('morgan')
+const path          = require('path')
+const pug           = require('pug')
+const bodyParser    = require('body-parser')
+const cookieParser  = require('cookie-parser')
+
+// Require the Skinny-Builder and Skinny-Router
+const Skinny        = require('devpunx-skinny').builder
+const skinnyRouter  = require('devpunx-skinny').router
+
+// Construct a new Builder
+var myWebsite = new Skinny({
+  file: path.join(__dirname, 'website'),
+  tmplDir: path.join(__dirname, 'views'),
+  tmplExt: '.pug'
+});
+
+// Initialize Skinny - creates virtual router, menu and breadcrumb navigation
+myWebsite.init()
+
+var app = express()
+
+// view engine setup - Skinny currently only supports .jade and .pug
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'pug')
+app.set('port', 3000)
+
+app.use(logger('dev'))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(cookieParser())
+app.use(express.static(path.join(__dirname, 'public')))
+
+// use the Skinny-Router like a regular express router
+app.use(skinnyRouter)
+
+
+// ...run the server
+let server = http.createServer(app)
+
+server.listen(app.get('port'))
+server.on('error', onError)
+server.on('listening', onListening)
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error
+  }
+}
+function onListening() {
+  let addr = server.address()
+  let port = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port
+  console.log(`\n==> Service is up and running on ${port}`)
+}
+```
